@@ -48,20 +48,22 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
     svc_field_value = {}
     # TODO: parse SvcParamValue
     while i < s.length
-      # TODO: raise Exception
-      # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-httpssvc-03#section-12.1.2
+      raise Exception if i + 5 > s.length
+
       k = s.slice(i, 2)
       i += 2
       vlen = s.slice(i, 2).unpack1('n1')
       i += 2
       octet = s.slice(i, 1)
       i += 1
+      raise Exception if i + vlen > s.length
+
       # TODO: mapping SvcParamKey
-      # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-httpssvc-03#section-6
       v = s.slice(i, vlen)
       i += vlen
       svc_field_value.store(k, [v, octet])
     end
+    raise Exception if i != s.length
 
     new(svc_priority, svc_domain_name, svc_field_value)
   end
