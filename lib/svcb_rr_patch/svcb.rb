@@ -9,6 +9,17 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 
+  module ParameterRegistry
+    MANDATORY       = "\x00\x00"
+    ALPN            = "\x00\x01"
+    NO_DEFAULT_ALPN = "\x00\x02"
+    PORT            = "\x00\x03"
+    IPV4HINT        = "\x00\x04"
+    ECHCONFIG       = "\x00\x05"
+    IPV6HINT        = "\x00\x06"
+    (65280..65535).each { |nnnn| eval "KEY#{nnnn} = #{nnnn}" }
+  end
+
   def initialize(svc_priority, svc_domain_name, svc_field_value)
     # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-03
     @svc_priority = svc_priority
@@ -35,7 +46,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
     msg.put_string(@target_name)
-    msg.put_string(@svc_field_value.map { |k, v| "#{k}=#{v}" }.join(' '))
+    msg.put_string(@svc_field_value.map { |k, v| "#{k}=#{v}" }.join(' ')) # FIXME
   end
 
   # :nodec:
