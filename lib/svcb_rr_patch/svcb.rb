@@ -20,11 +20,11 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   ]
   # (65280..65535).each { |nnnn| eval ParameterRegistry[nnnn] = "KEY#{nnnn}" }
 
-  def initialize(svc_priority, svc_domain_name, svc_field_value)
+  def initialize(svc_priority, svc_domain_name, svc_params)
     # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-03
     @svc_priority = svc_priority
     @svc_domain_name = svc_domain_name
-    @svc_field_value = svc_field_value
+    @svc_params = svc_params
   end
 
   ##
@@ -38,15 +38,15 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   attr_reader :svc_domain_name
 
   ##
-  # SvcFieldValue
+  # SvcParams
 
-  attr_reader :svc_field_value
+  attr_reader :svc_params
 
   # :nodoc:
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
     msg.put_string(@target_name)
-    msg.put_string(@svc_field_value.map { |k, v| "#{k}=#{v}" }.join(' ')) # FIXME
+    msg.put_string(@svc_params.map { |k, v| "#{k}=#{v}" }.join(' ')) # FIXME
   end
 
   # :nodoc:
@@ -56,14 +56,14 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
     return new(svc_priority, svc_domain_name, {}) if svc_priority.zero?
 
     # the SvcParams, consuming the remainder of the record
-    svc_field_value = decode_svc_field_value(msg.get_bytes)
-    new(svc_priority, svc_domain_name, svc_field_value)
+    svc_params = decode_svc_param_values(msg.get_bytes)
+    new(svc_priority, svc_domain_name, svc_params)
   end
 
   class << self
     # :nodoc:
-    def self.decode_svc_field_value(s)
-      svc_field_value = {}
+    def self.decode_svc_param_values(s)
+      svc_params = {}
       i = 0
       h = Hash[(0..ParameterRegistry.size).zip(ParameterRegistry)].invert
       while i < s.length
@@ -72,7 +72,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
         k = s.slice(i, 2).unpack1('n1')
         # SvcParamKeys SHALL appear in increasing numeric order.
         raise Exception \
-          unless svc_field_value.keys.find { |already| h[already] >= k }.nil?
+          unless svc_params.keys.find { |already| h[already] >= k }.nil?
 
         i += 2
         vlen = s.slice(i, 2).unpack1('n1')
@@ -84,11 +84,11 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
         # Values are in a format specific to the SvcParamKey.
         svc_param_key = ParameterRegistry[k]
         svc_param_values = parse_svc_param_key(svc_param_key, v)
-        svc_field_value.store(svc_param_key, svc_param_values)
+        svc_params.store(svc_param_key, svc_param_values)
       end
       raise Exception if i != s.length
 
-      svc_field_value
+      svc_params
     end
 
     # :nodoc:
