@@ -3,3 +3,4 @@
 RSpec.configure(&:disable_monkey_patching!)
 
 require 'svcb_rr_patch'
+include Resolv::DNS::Resource::IN

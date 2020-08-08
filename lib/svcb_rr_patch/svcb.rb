@@ -62,44 +62,44 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
 
   class << self
     # :nodoc:
-    def self.decode_svc_param_values(s)
+    def decode_svc_param_values(octet)
       svc_params = {}
       i = 0
       h = Hash[(0..ParameterRegistry.size).zip(ParameterRegistry)].invert
-      while i < s.length
-        raise Exception if i + 5 > s.length
+      while i < octet.length
+        raise Exception if i + 5 > octet.length
 
-        k = s.slice(i, 2).unpack1('n1')
+        k = octet.slice(i, 2).unpack1('n1')
         # SvcParamKeys SHALL appear in increasing numeric order.
         raise Exception \
           unless svc_params.keys.find { |already| h[already] >= k }.nil?
 
         i += 2
-        vlen = s.slice(i, 2).unpack1('n1')
+        vlen = octet.slice(i, 2).unpack1('n1')
         i += 2
-        raise Exception if i + vlen > s.length
+        raise Exception if i + vlen > octet.length
 
-        v = s.slice(i, vlen)
+        v = octet.slice(i, vlen)
         i += vlen
         # Values are in a format specific to the SvcParamKey.
         svc_param_key = ParameterRegistry[k]
         svc_param_values = parse_svc_param_key(svc_param_key, v)
         svc_params.store(svc_param_key, svc_param_values)
       end
-      raise Exception if i != s.length
+      raise Exception if i != octet.length
 
       svc_params
     end
 
     # :nodoc:
-    def self.parse_svc_param_key(key, octet)
+    def parse_svc_param_key(key, octet)
       case key
       when 'mandatory'
         parse_mandatory(octet)
       when 'alpn'
         parse_alpn(octet)
       when 'no-default-alpn'
-        parse_no_default_alpn(octet)
+        parse_alpn(octet)
       when 'port'
         parse_port(octet)
       when 'ipv4hint'
@@ -114,37 +114,44 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
     end
 
     # :nodoc:
-    def self.parse_mandatory(octet)
+    def parse_mandatory(octet)
       [octet]
     end
 
     # :nodoc:
-    def self.parse_alpn(octet)
+    def parse_alpn(octet)
+      alpns = []
+      i = 0
+      while i < octet.length
+        raise Exception if i + 1 > octet.length
+
+        id_len = octet.slice(i, 1).unpack1('C1')
+        i += 1
+        alpns << octet.slice(i, id_len)
+        i += id_len
+      end
+      raise Exception if i != octet.length
+
+      alpns
+    end
+
+    # :nodoc:
+    def parse_port(octet)
       [octet]
     end
 
     # :nodoc:
-    def self.parse_no_default_alpn(octet)
+    def parse_ipv4hint(octet)
       [octet]
     end
 
     # :nodoc:
-    def self.parse_port(octet)
+    def parse_echconfig(octet)
       [octet]
     end
 
     # :nodoc:
-    def self.parse_ipv4hint(octet)
-      [octet]
-    end
-
-    # :nodoc:
-    def self.parse_echconfig(octet)
-      [octet]
-    end
-
-    # :nodoc:
-    def self.parse_ipv6hint(octet)
+    def parse_ipv6hint(octet)
       [octet]
     end
   end
