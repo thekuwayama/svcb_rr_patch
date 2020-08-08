@@ -53,15 +53,19 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   def self.decode_rdata(msg)
     svc_priority = msg.get_bytes(2).unpack1('n1')
     svc_domain_name = msg.get_string
-    # TODO: AliasForm if svc_priority == 0
+    svc_field_value = {}
+    return new(svc_priority, svc_domain_name, svc_field_value) if svc_priority == 0
+
     s = msg.get_bytes
     i = 0
-    svc_field_value = {}
     # TODO: parse SvcParamValue
     while i < s.length
       raise Exception if i + 5 > s.length
 
-      k = s.slice(i, 2)
+      k = s.slice(i, 2).unpack1('n1')
+      # SvcParamKeys SHALL appear in increasing numeric order.
+      raise Exception unless svc_field_value.keys.find { |already| already >= k }.nil?
+
       i += 2
       vlen = s.slice(i, 2).unpack1('n1')
       i += 2
