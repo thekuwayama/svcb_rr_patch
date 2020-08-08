@@ -33,4 +33,19 @@ RSpec.describe SVCB do
       ).to eq [Resolv::IPv4.create("192.168.0.1"), Resolv::IPv4.create("192.168.0.2")]
     end
   end
+
+  context 'ipv6hint' do
+    let(:octet) do
+      "\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01"
+    end
+
+    it 'could parse' do
+      expect(
+        Resolv::DNS::Resource::IN::SVCB.send(
+          :parse_ipv6hint,
+          octet
+        )
+      ).to eq [Resolv::IPv6.create("101:101:101:101:101:101:101:101")]
+    end
+  end
 end

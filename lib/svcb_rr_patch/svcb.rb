@@ -5,7 +5,7 @@
 
 # rubocop: disable Style/ClassAndModuleChildren
 class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
-  TypeValue = 65 # rubocop: disable Naming/ConstantName
+  TypeValue = 64 # rubocop: disable Naming/ConstantName
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 
@@ -152,7 +152,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
 
     # :nodoc:
     def parse_ipv6hint(octet)
-      [octet]
+      octet.scan(/.{1,16}/).map { |s| Resolv::IPv6.new(s) }
     end
   end
 end
