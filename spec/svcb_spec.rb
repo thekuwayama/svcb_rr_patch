@@ -15,7 +15,7 @@ RSpec.describe SVCB do
           :parse_alpn,
           octet
         )
-      ).to eq ["h3-29", "h3-28", "h3-27", "h2"]
+      ).to eq %w[h3-29 h3-28 h3-27 h2]
     end
   end
 
@@ -30,7 +30,10 @@ RSpec.describe SVCB do
           :parse_ipv4hint,
           octet
         )
-      ).to eq [Resolv::IPv4.create("192.168.0.1"), Resolv::IPv4.create("192.168.0.2")]
+      ).to eq [
+        Resolv::IPv4.create('192.168.0.1'),
+        Resolv::IPv4.create('192.168.0.2')
+      ]
     end
   end
 
@@ -45,7 +48,7 @@ RSpec.describe SVCB do
           :parse_ipv6hint,
           octet
         )
-      ).to eq [Resolv::IPv6.create("101:101:101:101:101:101:101:101")]
+      ).to eq [Resolv::IPv6.create('101:101:101:101:101:101:101:101')]
     end
   end
 end

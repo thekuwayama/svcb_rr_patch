@@ -3,22 +3,23 @@
 ##
 # The SVCB(contraction of "service binding") DNS Resource Record
 
+# rubocop: disable Metrics/ClassLength
 # rubocop: disable Style/ClassAndModuleChildren
 class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   TypeValue = 64 # rubocop: disable Naming/ConstantName
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 
-  ParameterRegistry = [
-    'mandatory',
-    'alpn',
-    'no-default-alpn',
-    'port',
-    'ipv4hint',
-    'echconfig',
-    'ipv6hint'
-  ]
-  # (65280..65535).each { |nnnn| eval ParameterRegistry[nnnn] = "KEY#{nnnn}" }
+  PARAMETE_RREGISTRY = %w[
+    mandatory
+    alpn
+    no-default-alpn
+    port
+    ipv4hint
+    echconfig
+    ipv6hint
+  ].freeze
+  # (65280..65535).each { |nnnn| eval PARAMETE_RREGISTRY[nnnn] = "KEY#{nnnn}" }
 
   def initialize(svc_priority, svc_domain_name, svc_params)
     # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-03
@@ -46,26 +47,28 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
     msg.put_string(@target_name)
-    msg.put_string(@svc_params.map { |k, v| "#{k}=#{v}" }.join(' ')) # FIXME
-  end
-
-  # :nodoc:
-  def self.decode_rdata(msg)
-    svc_priority = msg.get_bytes(2).unpack1('n1')
-    svc_domain_name = msg.get_string
-    return new(svc_priority, svc_domain_name, {}) if svc_priority.zero?
-
-    # the SvcParams, consuming the remainder of the record
-    svc_params = decode_svc_param_values(msg.get_bytes)
-    new(svc_priority, svc_domain_name, svc_params)
+    # TODO: encode SvcParams
+    # msg.put_string(encode_svc_params)
   end
 
   class << self
     # :nodoc:
+    def decode_rdata(msg)
+      svc_priority = msg.get_bytes(2).unpack1('n1')
+      svc_domain_name = msg.get_string
+      return new(svc_priority, svc_domain_name, {}) if svc_priority.zero?
+
+      # the SvcParams, consuming the remainder of the record
+      svc_params = decode_svc_param_values(msg.get_bytes)
+      new(svc_priority, svc_domain_name, svc_params)
+    end
+
+    # :nodoc:
+    # rubocop: disable Metrics/AbcSize
     def decode_svc_param_values(octet)
       svc_params = {}
       i = 0
-      h = Hash[(0..ParameterRegistry.size).zip(ParameterRegistry)].invert
+      h = Hash[(0..PARAMETE_RREGISTRY.size).zip(PARAMETE_RREGISTRY)].invert
       while i < octet.length
         raise Exception if i + 5 > octet.length
 
@@ -82,7 +85,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
         v = octet.slice(i, vlen)
         i += vlen
         # Values are in a format specific to the SvcParamKey.
-        svc_param_key = ParameterRegistry[k]
+        svc_param_key = PARAMETE_RREGISTRY[k]
         svc_param_values = parse_svc_param_key(svc_param_key, v)
         svc_params.store(svc_param_key, svc_param_values)
       end
@@ -90,8 +93,10 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
 
       svc_params
     end
+    # rubocop: enable Metrics/AbcSize
 
     # :nodoc:
+    # rubocop: disable Metrics/CyclomaticComplexity
     def parse_svc_param_key(key, octet)
       case key
       when 'mandatory'
@@ -112,6 +117,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
         [octet]
       end
     end
+    # rubocop: enable Metrics/CyclomaticComplexity
 
     # :nodoc:
     def parse_mandatory(octet)
@@ -156,4 +162,5 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
     end
   end
 end
+# rubocop: enable Metrics/ClassLength
 # rubocop: enable Style/ClassAndModuleChildren
