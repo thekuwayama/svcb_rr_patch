@@ -10,6 +10,9 @@ Style/Documentation:
 Style/NumericLiterals:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
 Metrics/AbcSize:
   Max: 30
 
