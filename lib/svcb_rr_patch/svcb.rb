@@ -8,6 +8,9 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 
+  # @param svc_priority [Integer]
+  # @param svc_domain_name [String]
+  # @param svc_field_value [Map]
   def initialize(svc_priority, svc_domain_name, svc_field_value)
     # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-00
     @svc_priority = svc_priority
@@ -33,7 +36,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   # :nodoc:
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
-    msg.put_string(@target_name)
+    msg.put_string(@svc_domain_name)
     # TODO: encode SvcFieldValue
     # msg.put_string(encode_svc_field_value)
   end
@@ -41,12 +44,12 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   class << self
     # :nodoc:
     def decode_rdata(msg)
-      svc_priority = msg.get_bytes(2).unpack1('n1')
+      svc_priority = msg.get_bytes(2).unpack1('n')
       svc_domain_name = msg.get_string
       return new(svc_priority, svc_domain_name, {}) if svc_priority.zero?
 
       # the SvcFieldValue, consuming the remainder of the record
-      svc_field_value = SvcbRrPatch::SvcFieldValue.decode(msg.get_bytes)
+      svc_field_value = ::SvcbRrPatch::SvcFieldValue.decode(msg.get_bytes)
       new(svc_priority, svc_domain_name, svc_field_value)
     end
   end

@@ -13,14 +13,14 @@ class SvcbRrPatch::SvcFieldValue::Alpn
     protocols = []
     i = 0
     while i < octet.length
-      raise Exception if i + 1 > octet.length
+      raise ::Resolv::DNS::DecodeError if i + 1 > octet.length
 
       id_len = octet.slice(i, 1).unpack1('C1')
       i += 1
       protocols << octet.slice(i, id_len)
       i += id_len
     end
-    raise Exception if i != octet.length
+    raise ::Resolv::DNS::DecodeError if i != octet.length
 
     protocols
   end

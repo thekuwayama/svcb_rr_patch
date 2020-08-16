@@ -23,22 +23,22 @@ module SvcbRrPatch::SvcFieldValue
   #
   # @return [Map]
   # rubocop: disable Metrics/AbcSize
-  def decode(octet)
+  def self.decode(octet)
     svc_field_value = {}
     i = 0
     h = Hash[(0..PARAMETER_REGISTRY.size).zip(PARAMETER_REGISTRY)].invert
     while i < octet.length
-      raise Exception if i + 4 > octet.length
+      raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
 
       k = octet.slice(i, 2).unpack1('n1')
       # SvcParamKeys SHALL appear in increasing numeric order.
-      raise Exception \
+      raise ::Resolv::DNS::DecodeError \
         unless svc_field_value.keys.find { |already| h[already] >= k }.nil?
 
       i += 2
       vlen = octet.slice(i, 2).unpack1('n1')
       i += 2
-      raise Exception if i + vlen > octet.length
+      raise ::Resolv::DNS::DecodeError if i + vlen > octet.length
 
       v = octet.slice(i, vlen)
       i += vlen
@@ -47,17 +47,15 @@ module SvcbRrPatch::SvcFieldValue
       svc_param_values = decode_svc_field_value(svc_param_key, v)
       svc_field_value.store(svc_param_key, svc_param_values)
     end
-    raise Exception if i != octet.length
+    raise ::Resolv::DNS::DecodeError if i != octet.length
 
     svc_field_value
   end
   # rubocop: enable Metrics/AbcSize
 
-  private
-
   # :nodoc:
   # rubocop: disable Metrics/CyclomaticComplexity
-  def decode_svc_field_value(key, octet)
+  def self.decode_svc_field_value(key, octet)
     case key
     when 'no name'
       NoName.decode(octet)

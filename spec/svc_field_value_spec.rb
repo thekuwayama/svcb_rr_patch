@@ -4,8 +4,6 @@
 require_relative 'spec_helper'
 
 RSpec.describe SvcbRrPatch::SvcFieldValue do
-  include SvcbRrPatch::SvcFieldValue
-
   context 'svc_field_value' do
     let(:octet) do
       <<-BIN.split.map(&:hex).map(&:chr).join
@@ -17,7 +15,7 @@ RSpec.describe SvcbRrPatch::SvcFieldValue do
     end
 
     let(:svc_field_value) do
-      decode(octet)
+      SvcbRrPatch::SvcFieldValue.decode(octet)
     end
 
     it 'could decode' do
