@@ -9,7 +9,7 @@ class SvcbRrPatch::SvcFieldValue::Alpn
   end
 
   # :nodoc:
-  def self.decode(octet)
+  def self.decode_protocols(octet)
     protocols = []
     i = 0
     while i < octet.length
@@ -22,6 +22,12 @@ class SvcbRrPatch::SvcFieldValue::Alpn
     end
     raise Exception if i != octet.length
 
+    protocols
+  end
+
+  # :nodec:
+  def self.decode(octet)
+    protocols = decode_protocols(octet)
     new(protocols)
   end
 end

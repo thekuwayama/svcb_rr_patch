@@ -4,7 +4,7 @@ class SvcbRrPatch::SvcFieldValue::NoDefaultAlpn <
       SvcbRrPatch::SvcFieldValue::Alpn
   # :nodec:
   def self.decode(octet)
-    alpn = ::SvcbRrPatch::SvcFieldValue::Alpn.decode(octet)
-    new(alpn.protocols)
+    protocols = decode_protocols(octet)
+    new(protocols)
   end
 end
