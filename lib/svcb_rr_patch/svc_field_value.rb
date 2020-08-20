@@ -1,24 +1,29 @@
 # frozen_string_literal: true
 
 module SvcbRrPatch::SvcFieldValue
-  # initialize
+  PARAMETER_REGISTRY = lambda {
+    registry = %w[
+      no\ name
+      alpn
+      no-default-alpn
+      port
+      ipv4hint
+      echconfig
+      ipv6hint
+    ]
+    # rubocop: disable Security/Eval
+    (65280..65535).each do |nnnn|
+      eval "registry[nnnn] = \"KEY#{nnnn}\"", binding, __FILE__, __LINE__
+    end
+    # rubocop: enable Security/Eval
+    registry
+  }.call.freeze
 end
 
 Dir[File.dirname(__FILE__) + '/svc_field_value/*.rb']
   .sort.each { |f| require f }
 
 module SvcbRrPatch::SvcFieldValue
-  PARAMETER_REGISTRY = %w[
-    no\ name
-    alpn
-    no-default-alpn
-    port
-    ipv4hint
-    echconfig
-    ipv6hint
-  ].freeze
-  # (65280..65535).each { |nnnn| eval PARAMETER_REGISTRY[nnnn] = "KEY#{nnnn}" }
-
   # @return [String]
   def self.encode(svc_field_value)
     h = Hash[(0..PARAMETER_REGISTRY.size - 1).zip(PARAMETER_REGISTRY)].invert
