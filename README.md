@@ -2,6 +2,7 @@
 
 [![CI](https://github.com/thekuwayama/svcb_rr_patch/workflows/CI/badge.svg)](https://github.com/thekuwayama/svcb_rr_patch/actions?workflow=CI)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/thekuwayama/svcb_rr_patch/master/LICENSE.txt)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a1e5224a552014f2d4d5/maintainability)](https://codeclimate.com/github/thekuwayama/svcb_rr_patch/maintainability)
 
 `svcb_rr_patch` is the patch that adds SVCB Resource Record and HTTPS Resource Record.
 
@@ -9,8 +10,6 @@
 
 
 ## Installation
-
-`svcb_rr_patch` is **WIP**.
 
 You can install this gem with [specific_install](https://rubygems.org/gems/specific_install).
 
