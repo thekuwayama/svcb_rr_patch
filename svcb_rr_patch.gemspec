@@ -9,7 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = SvcbRrPatch::VERSION
   spec.authors       = ['thekuwayama']
   spec.email         = ['thekuwayama@gmail.com']
-  spec.summary       = 'the patch that adds SVCB Resource Record and HTTPS Resource Record'
+  spec.summary       = 'the patch that adds SVCB Resource Record' \
+                       ' and HTTPS Resource Record'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/thekuwayama/svcb_rr_patch'
   spec.license       = 'MIT'
