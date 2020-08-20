@@ -19,14 +19,29 @@ module SvcbRrPatch::SvcFieldValue
   ].freeze
   # (65280..65535).each { |nnnn| eval PARAMETER_REGISTRY[nnnn] = "KEY#{nnnn}" }
 
+  # @return [String]
+  def self.encode(svc_field_value)
+    h = Hash[(0..PARAMETER_REGISTRY.size - 1).zip(PARAMETER_REGISTRY)].invert
+
+    svc_field_value
+      .map { |k, v| [h[k], v] }
+      .sort { |lh, rh| lh.first <=> rh.first }
+      .map do |kv|
+        k, v = kv
+        voctet = v.encode
+        [k].pack('n') + [voctet.length].pack('n') + voctet
+      end
+      .join
+  end
+
   # @param octet [String]
   #
-  # @return [Map]
+  # @return [Hash] Integer => SvcbRrPatch::$Object
   # rubocop: disable Metrics/AbcSize
   def self.decode(octet)
     svc_field_value = {}
     i = 0
-    h = Hash[(0..PARAMETER_REGISTRY.size).zip(PARAMETER_REGISTRY)].invert
+    h = Hash[(0..PARAMETER_REGISTRY.size - 1).zip(PARAMETER_REGISTRY)].invert
     while i < octet.length
       raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
 

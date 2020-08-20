@@ -4,11 +4,11 @@
 require_relative 'spec_helper'
 
 RSpec.describe SvcbRrPatch::SvcFieldValue::Ipv6hint do
-  context 'ipv6hint' do
-    let(:octet) do
-      "\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01"
-    end
+  let(:octet) do
+    "\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01"
+  end
 
+  context '#decode' do
     let(:ipv6hint) do
       SvcbRrPatch::SvcFieldValue::Ipv6hint.decode(octet)
     end
@@ -16,6 +16,18 @@ RSpec.describe SvcbRrPatch::SvcFieldValue::Ipv6hint do
     it 'could decode' do
       expect(ipv6hint.addresses)
         .to eq [Resolv::IPv6.create('101:101:101:101:101:101:101:101')]
+    end
+  end
+
+  context '#encode' do
+    let(:ipv6hint) do
+      SvcbRrPatch::SvcFieldValue::Ipv6hint.new(
+        [Resolv::IPv6.create('101:101:101:101:101:101:101:101')]
+      )
+    end
+
+    it 'could encode' do
+      expect(ipv6hint.encode).to eq octet
     end
   end
 end
