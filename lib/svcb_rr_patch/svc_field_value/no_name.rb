@@ -3,9 +3,14 @@
 class SvcbRrPatch::SvcFieldValue::NoName
   attr_reader :octet
 
-  # :nodoc:
+  # @param octet [String]
   def initialize(octet)
     @octet = octet
+  end
+
+  # @return [String]
+  def encode
+    @octet
   end
 
   # :nodoc:

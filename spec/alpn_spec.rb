@@ -4,18 +4,27 @@
 require_relative 'spec_helper'
 
 RSpec.describe SvcbRrPatch::SvcFieldValue::Alpn do
-  context 'alpn' do
-    let(:octet) do
-      "\x05h3-29\x05h3-28\x05h3-27\x02h2"
-    end
+  let(:octet) do
+    "\x05h3-29\x05h3-28\x05h3-27\x02h2"
+  end
 
+  context '#decode' do
     let(:alpn) do
       SvcbRrPatch::SvcFieldValue::Alpn.decode(octet)
     end
 
     it 'could decode' do
-      expect(alpn.protocols)
-        .to eq %w[h3-29 h3-28 h3-27 h2]
+      expect(alpn.protocols).to eq %w[h3-29 h3-28 h3-27 h2]
+    end
+  end
+
+  context '#encode' do
+    let(:alpn) do
+      SvcbRrPatch::SvcFieldValue::Alpn.new(%w[h3-29 h3-28 h3-27 h2])
+    end
+
+    it 'could encode' do
+      expect(alpn.encode).to eq octet
     end
   end
 end

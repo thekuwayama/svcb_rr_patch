@@ -8,6 +8,11 @@ class SvcbRrPatch::SvcFieldValue::Ipv4hint
     @addresses = addresses
   end
 
+  # @return [String]
+  def encode
+    @addresses.map(&:address).join
+  end
+
   # :nodoc:
   def self.decode(octet)
     addresses = octet.scan(/.{1,4}/).map { |s| Resolv::IPv4.new(s) }

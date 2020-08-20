@@ -37,8 +37,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
     msg.put_string(@svc_domain_name)
-    # TODO: encode SvcFieldValue
-    # msg.put_string(encode_svc_field_value)
+    msg.put_string(::SvcbRrPatch::SvcFieldValue.encode(@svc_field_value))
   end
 
   class << self

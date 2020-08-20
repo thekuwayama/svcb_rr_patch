@@ -8,6 +8,11 @@ class SvcbRrPatch::SvcFieldValue::Alpn
     @protocols = protocols
   end
 
+  # @return [String]
+  def encode
+    @protocols.map { |p| [p.length].pack('C') + p }.join
+  end
+
   # :nodoc:
   def self.decode_protocols(octet)
     protocols = []

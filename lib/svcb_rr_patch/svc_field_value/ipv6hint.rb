@@ -8,6 +8,11 @@ class SvcbRrPatch::SvcFieldValue::Ipv6hint
     @addresses = addresses
   end
 
+  # @return [String]
+  def encode
+    @addresses.map(&:address).join
+  end
+
   # :nodoc:
   def self.decode(octet)
     addresses = octet.scan(/.{1,16}/).map { |s| Resolv::IPv6.new(s) }
