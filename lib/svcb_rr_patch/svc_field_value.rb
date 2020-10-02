@@ -13,7 +13,7 @@ module SvcbRrPatch::SvcFieldValue
     ]
     # rubocop: disable Security/Eval
     (65280..65535).each do |nnnn|
-      eval "registry[nnnn] = \"KEY#{nnnn}\"", binding, __FILE__, __LINE__
+      eval "registry[nnnn] = \"key#{nnnn}\"", binding, __FILE__, __LINE__
     end
     # rubocop: enable Security/Eval
     registry
