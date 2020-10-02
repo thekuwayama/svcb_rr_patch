@@ -9,7 +9,7 @@ RSpec.describe SvcbRrPatch::SvcFieldValue do
       00 01 00 15 05 68 33 2d     32 39 05 68 33 2d 32 38
       05 68 33 2d 32 37 02 68     32 00 04 00 08 c0 a8 00
       01 c0 a8 00 02 00 06 00     10 01 01 01 01 01 01 01
-      01 01 01 01 01 01 01 01     01
+      01 01 01 01 01 01 01 01     01 ff 35 00 03 01 02 03
     BIN
   end
 
@@ -32,23 +32,36 @@ RSpec.describe SvcbRrPatch::SvcFieldValue do
     )
   end
 
+  context '#keyNNNNN' do
+    it 'could be defined' do
+      expect(SvcbRrPatch::SvcFieldValue::PARAMETER_REGISTRY[65333])
+        .to eq 'key65333'
+    end
+  end
+
   context '#decode' do
     let(:svc_field_value) do
       SvcbRrPatch::SvcFieldValue.decode(octet)
     end
 
     it 'could decode' do
-      expect(svc_field_value.keys).to eq %w[alpn ipv4hint ipv6hint]
+      expect(svc_field_value.keys).to eq %w[alpn ipv4hint ipv6hint key65333]
 
       expect(svc_field_value['alpn'].protocols).to eq alpn.protocols
       expect(svc_field_value['ipv4hint'].addresses).to eq ipv4hint.addresses
       expect(svc_field_value['ipv6hint'].addresses).to eq ipv6hint.addresses
+      expect(svc_field_value['key65333']).to eq "\x01\x02\x03"
     end
   end
 
   context '#decode' do
     let(:svc_field_value) do
-      { 'alpn' => alpn, 'ipv4hint' => ipv4hint, 'ipv6hint' => ipv6hint }
+      {
+        'alpn' => alpn,
+        'ipv4hint' => ipv4hint,
+        'ipv6hint' => ipv6hint,
+        'key65333' => "\x01\x02\x03"
+      }
     end
 
     it 'could encode' do
