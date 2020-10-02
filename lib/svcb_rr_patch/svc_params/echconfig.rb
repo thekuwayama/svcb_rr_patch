@@ -15,10 +15,17 @@ class SvcbRrPatch::SvcParams::Echconfig
 
   # :nodoc:
   def self.decode(octet)
-    raise ::Resolv::DNS::DecodeError \
-      unless octet.length == octet.slice(0, 2).unpack1('n') + 2
+    b = nil
+    begin
+      b = Base64.strict_decode64(octet)
+    rescue ArgumentError
+      raise ::Resolv::DNS::DecodeError
+    end
 
-    echconfigs = ECHConfig.decode_vectors(octet.slice(2..))
+    raise ::Resolv::DNS::DecodeError \
+      unless b.length == b.slice(0, 2).unpack1('n') + 2
+
+    echconfigs = ECHConfig.decode_vectors(b.slice(2..))
     new(echconfigs)
   end
 
