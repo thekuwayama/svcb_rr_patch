@@ -32,6 +32,10 @@ RSpec.describe SvcbRrPatch::SvcFieldValue do
     )
   end
 
+  let(:key65333) do
+    "\x01\x02\x03"
+  end
+
   context '#keyNNNNN' do
     it 'could be defined' do
       expect(SvcbRrPatch::SvcFieldValue::PARAMETER_REGISTRY[65333])
@@ -50,17 +54,17 @@ RSpec.describe SvcbRrPatch::SvcFieldValue do
       expect(svc_field_value['alpn'].protocols).to eq alpn.protocols
       expect(svc_field_value['ipv4hint'].addresses).to eq ipv4hint.addresses
       expect(svc_field_value['ipv6hint'].addresses).to eq ipv6hint.addresses
-      expect(svc_field_value['key65333']).to eq "\x01\x02\x03"
+      expect(svc_field_value['key65333']).to eq key65333
     end
   end
 
-  context '#decode' do
+  context '#encode' do
     let(:svc_field_value) do
       {
         'alpn' => alpn,
         'ipv4hint' => ipv4hint,
         'ipv6hint' => ipv6hint,
-        'key65333' => "\x01\x02\x03"
+        'key65333' => key65333
       }
     end
 

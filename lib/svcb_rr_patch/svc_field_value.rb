@@ -31,10 +31,8 @@ module SvcbRrPatch::SvcFieldValue
     svc_field_value
       .map { |k, v| [h[k], v] }
       .sort { |lh, rh| lh.first <=> rh.first }
-      .map do |kv|
-        k, v = kv
-        voctet = v.encode
-        [k].pack('n') + [voctet.length].pack('n') + voctet
+      .map do |k, v|
+        [k].pack('n') + v.encode.then { |s| [s.length].pack('n') + s }
       end
       .join
   end
