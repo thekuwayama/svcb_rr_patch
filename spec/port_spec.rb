@@ -3,14 +3,14 @@
 
 require_relative 'spec_helper'
 
-RSpec.describe SvcbRrPatch::SvcFieldValue::Port do
+RSpec.describe SvcbRrPatch::SvcParams::Port do
   let(:octet) do
     "\x01\xbb"
   end
 
   context '#decode' do
     let(:port) do
-      SvcbRrPatch::SvcFieldValue::Port.decode(octet)
+      SvcbRrPatch::SvcParams::Port.decode(octet)
     end
 
     it 'could decode' do
@@ -20,7 +20,7 @@ RSpec.describe SvcbRrPatch::SvcFieldValue::Port do
 
   context '#encode' do
     let(:port) do
-      SvcbRrPatch::SvcFieldValue::Port.new(443)
+      SvcbRrPatch::SvcParams::Port.new(443)
     end
 
     it 'could encode' do

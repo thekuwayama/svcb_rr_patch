@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcFieldValue::Mandatory
+class SvcbRrPatch::SvcParams::Mandatory
   attr_reader :keys
 
   # @param keys [Array of Integer]]

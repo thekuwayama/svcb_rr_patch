@@ -3,15 +3,15 @@
 
 require_relative 'spec_helper'
 
-RSpec.describe SvcbRrPatch::SvcFieldValue::Mandatory do
+RSpec.describe SvcbRrPatch::SvcParams::Mandatory do
   let(:octet) do
     "\x00\x05\xff\xa4"
   end
 
   let(:keys) do
     h = Hash[
-      (0..SvcbRrPatch::SvcFieldValue::PARAMETER_REGISTRY.size - 1)
-        .zip(SvcbRrPatch::SvcFieldValue::PARAMETER_REGISTRY)
+      (0..SvcbRrPatch::SvcParams::PARAMETER_REGISTRY.size - 1)
+        .zip(SvcbRrPatch::SvcParams::PARAMETER_REGISTRY)
     ].invert
 
     [h['echconfig'], h['key65444']]
@@ -19,7 +19,7 @@ RSpec.describe SvcbRrPatch::SvcFieldValue::Mandatory do
 
   context '#decode' do
     let(:mandatory) do
-      SvcbRrPatch::SvcFieldValue::Mandatory.decode(octet)
+      SvcbRrPatch::SvcParams::Mandatory.decode(octet)
     end
 
     it 'could decode' do
@@ -29,7 +29,7 @@ RSpec.describe SvcbRrPatch::SvcFieldValue::Mandatory do
 
   context '#encode' do
     let(:mandatory) do
-      SvcbRrPatch::SvcFieldValue::Mandatory.new(keys)
+      SvcbRrPatch::SvcParams::Mandatory.new(keys)
     end
 
     it 'could encode' do
