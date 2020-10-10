@@ -3,7 +3,7 @@
 module SvcbRrPatch::SvcFieldValue
   PARAMETER_REGISTRY = lambda {
     registry = %w[
-      no\ name
+      mandatory
       alpn
       no-default-alpn
       port
