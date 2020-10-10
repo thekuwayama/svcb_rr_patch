@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcFieldValue::Port
+class SvcbRrPatch::SvcParams::Port
   attr_reader :port
 
   # @param port [Integer]

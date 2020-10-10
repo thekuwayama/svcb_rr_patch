@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcFieldValue::Ipv4hint
+class SvcbRrPatch::SvcParams::Ipv4hint
   attr_reader :addresses
 
   # @param addresses [Array of Resolv::IPv4]

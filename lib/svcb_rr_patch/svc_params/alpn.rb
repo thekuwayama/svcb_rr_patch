@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcFieldValue::Alpn
+class SvcbRrPatch::SvcParams::Alpn
   attr_reader :protocols
 
   # @param protocols [Array of String]

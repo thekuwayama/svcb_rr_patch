@@ -9,13 +9,13 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   ClassHash[[TypeValue, ClassValue]] = self
 
   # @param svc_priority [Integer]
-  # @param svc_domain_name [String]
-  # @param svc_field_value [Map]
-  def initialize(svc_priority, svc_domain_name, svc_field_value)
-    # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-00
+  # @param target_name [String]
+  # @param svc_params [Map]
+  def initialize(svc_priority, target_name, svc_params)
+    # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-01
     @svc_priority = svc_priority
-    @svc_domain_name = svc_domain_name
-    @svc_field_value = svc_field_value
+    @target_name = target_name
+    @svc_params = svc_params
   end
 
   ##
@@ -24,32 +24,32 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   attr_reader :svc_priority
 
   ##
-  # SvcDomainName
+  # TargetName
 
-  attr_reader :svc_domain_name
+  attr_reader :target_name
 
   ##
-  # SvcFieldValue
+  # SvcParams
 
-  attr_reader :svc_field_value
+  attr_reader :svc_params
 
   # :nodoc:
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n1'))
-    msg.put_string(@svc_domain_name)
-    msg.put_string(::SvcbRrPatch::SvcFieldValue.encode(@svc_field_value))
+    msg.put_string(@target_name)
+    msg.put_string(::SvcbRrPatch::SvcParams.encode(@svc_params))
   end
 
   class << self
     # :nodoc:
     def decode_rdata(msg)
       svc_priority = msg.get_bytes(2).unpack1('n')
-      svc_domain_name = msg.get_string
-      return new(svc_priority, svc_domain_name, {}) if svc_priority.zero?
+      target_name = msg.get_string
+      return new(svc_priority, target_name, {}) if svc_priority.zero?
 
-      # the SvcFieldValue, consuming the remainder of the record
-      svc_field_value = ::SvcbRrPatch::SvcFieldValue.decode(msg.get_bytes)
-      new(svc_priority, svc_domain_name, svc_field_value)
+      # the SvcParams, consuming the remainder of the record
+      svc_params = ::SvcbRrPatch::SvcParams.decode(msg.get_bytes)
+      new(svc_priority, target_name, svc_params)
     end
   end
 end

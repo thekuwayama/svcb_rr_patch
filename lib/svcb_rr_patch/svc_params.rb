@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module SvcbRrPatch::SvcFieldValue
+module SvcbRrPatch::SvcParams
   PARAMETER_REGISTRY = lambda {
     registry = %w[
-      no\ name
+      mandatory
       alpn
       no-default-alpn
       port
@@ -20,15 +20,15 @@ module SvcbRrPatch::SvcFieldValue
   }.call.freeze
 end
 
-Dir[File.dirname(__FILE__) + '/svc_field_value/*.rb']
+Dir[File.dirname(__FILE__) + '/svc_params/*.rb']
   .sort.each { |f| require f }
 
-module SvcbRrPatch::SvcFieldValue
+module SvcbRrPatch::SvcParams
   # @return [String]
-  def self.encode(svc_field_value)
+  def self.encode(svc_params)
     h = Hash[(0..PARAMETER_REGISTRY.size - 1).zip(PARAMETER_REGISTRY)].invert
 
-    svc_field_value
+    svc_params
       .map { |k, v| [h[k], v] }
       .sort { |lh, rh| lh.first <=> rh.first }
       .map do |k, v|
@@ -42,7 +42,7 @@ module SvcbRrPatch::SvcFieldValue
   # @return [Hash] Integer => SvcbRrPatch::$Object
   # rubocop: disable Metrics/AbcSize
   def self.decode(octet)
-    svc_field_value = {}
+    svc_params = {}
     i = 0
     h = Hash[(0..PARAMETER_REGISTRY.size - 1).zip(PARAMETER_REGISTRY)].invert
     while i < octet.length
@@ -51,7 +51,7 @@ module SvcbRrPatch::SvcFieldValue
       k = octet.slice(i, 2).unpack1('n1')
       # SvcParamKeys SHALL appear in increasing numeric order.
       raise ::Resolv::DNS::DecodeError \
-        unless svc_field_value.keys.find { |already| h[already] >= k }.nil?
+        unless svc_params.keys.find { |already| h[already] >= k }.nil?
 
       i += 2
       vlen = octet.slice(i, 2).unpack1('n1')
@@ -62,18 +62,18 @@ module SvcbRrPatch::SvcFieldValue
       i += vlen
       # Values are in a format specific to the SvcParamKey.
       svc_param_key = PARAMETER_REGISTRY[k]
-      svc_param_values = decode_svc_field_value(svc_param_key, v)
-      svc_field_value.store(svc_param_key, svc_param_values)
+      svc_param_values = decode_svc_params(svc_param_key, v)
+      svc_params.store(svc_param_key, svc_param_values)
     end
     raise ::Resolv::DNS::DecodeError if i != octet.length
 
-    svc_field_value
+    svc_params
   end
   # rubocop: enable Metrics/AbcSize
 
   # :nodoc:
   # rubocop: disable Metrics/CyclomaticComplexity
-  def self.decode_svc_field_value(key, octet)
+  def self.decode_svc_params(key, octet)
     case key
     when 'no name'
       NoName.decode(octet)
