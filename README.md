@@ -6,7 +6,7 @@
 
 `svcb_rr_patch` is the patch that adds SVCB Resource Record and HTTPS Resource Record.
 
-- https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-00
+- https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-01
 
 
 ## Installation
