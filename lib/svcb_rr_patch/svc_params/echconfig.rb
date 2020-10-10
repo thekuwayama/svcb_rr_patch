@@ -33,9 +33,12 @@ class SvcbRrPatch::SvcParams::Echconfig
     attr_reader :version
     attr_reader :echconfigcontents
 
-    # @param version [String]
+    # https://tools.ietf.org/html/draft-ietf-tls-esni-07
+    DRAFT_VERSION = "\xff\x07"
+    private_constant :DRAFT_VERSION
+
     # @param echconfigcontents [ECHConfigContents]
-    def initialize(version, echconfigcontents)
+    def initialize(echconfigcontents)
       @version = version
       @echconfigcontents = echconfigcontents
     end
