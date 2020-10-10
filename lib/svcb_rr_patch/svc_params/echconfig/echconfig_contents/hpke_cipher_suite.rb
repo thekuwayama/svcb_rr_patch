@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::HpkeCipherSuite
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
+  # define class
+end
+
+Dir[File.dirname(__FILE__) + '/hpke_cipher_suite/*.rb'].sort.each { |f| require f }
+
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
   attr_reader :kdf_id
   attr_reader :aead_id
 
@@ -26,7 +32,7 @@ class SvcbRrPatch::SvcParams::Echconfig::HpkeCipherSuite
       kdf_id = HkpeKdfId.decode(octet.slice(i, 2))
       aead_id = HkpeAeadId.decode(octet.slice(i + 2, 2))
       i += 4
-      cipher_suites += HpkeCipherSuite.new(kdf_id, aead_id)
+      cipher_suites << new(kdf_id, aead_id)
     end
 
     cipher_suites

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::HkpeAeadId
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HkpeKemId
   attr_reader :uint16
 
   # @param uint16 [Integer]

@@ -20,8 +20,7 @@ module SvcbRrPatch::SvcParams
   }.call.freeze
 end
 
-Dir[File.dirname(__FILE__) + '/svc_params/*.rb']
-  .sort.each { |f| require f }
+Dir[File.dirname(__FILE__) + '/svc_params/*.rb'].sort.each { |f| require f }
 
 module SvcbRrPatch::SvcParams
   # @return [String]

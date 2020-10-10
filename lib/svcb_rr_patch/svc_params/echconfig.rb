@@ -10,7 +10,9 @@ class SvcbRrPatch::SvcParams::Echconfig
 
   # @return [String]
   def encode
-    @echconfigs.map(&:encode).join.then { |s| [s.length].pack('n') + s }
+    Base64.strict_encode64(
+      @echconfigs.map(&:encode).join.then { |s| [s.length].pack('n') + s }
+    )
   end
 
   # :nodoc:
@@ -28,45 +30,49 @@ class SvcbRrPatch::SvcParams::Echconfig
     echconfigs = ECHConfig.decode_vectors(b.slice(2..))
     new(echconfigs)
   end
+end
 
-  class ECHConfig
-    attr_reader :version
-    attr_reader :echconfigcontents
+require File.dirname(__FILE__) + '/echconfig/echconfig_contents.rb'
 
-    # https://tools.ietf.org/html/draft-ietf-tls-esni-07
-    DRAFT_VERSION = "\xff\x07"
-    private_constant :DRAFT_VERSION
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfig
+  attr_reader :version
+  attr_reader :echconfigcontents
 
-    # @param echconfigcontents [ECHConfigContents]
-    def initialize(echconfigcontents)
-      @version = version
-      @echconfigcontents = echconfigcontents
+  # https://tools.ietf.org/html/draft-ietf-tls-esni-07
+  DRAFT_VERSION = "\xff\x07"
+  private_constant :DRAFT_VERSION
+
+  ECHConfigContents = ::SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
+
+  # @param echconfig_contents [ECHConfigContents]
+  def initialize(echconfig_contents)
+    @version = DRAFT_VERSION
+    @echconfig_contents = echconfig_contents
+  end
+
+  # @return [String]
+  def encode
+    @version + @echconfig_contents.encode.then { |s| [s.length].pack('n') + s }
+  end
+
+  # @return [Array of ECHConfig]
+  def self.decode_vectors(octet)
+    i = 0
+    echconfigs = []
+    while i < octet.length
+      raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
+
+      version = octet.slice(i, i + 2)
+      length = octet.slice(i + 2, i + 4).unpack1('n')
+      i += 4
+      raise ::Resolv::DNS::DecodeError if i + length > octet.length
+
+      echconfig_contents = ECHConfigContents.decode(octet.slice(i, i + length))
+      i += length
+      echconfigs << new(echconfig_contents)
     end
+    raise ::Resolv::DNS::DecodeError if i != octet.length
 
-    # @return [String]
-    def encode
-      @version + echconfigcontents.encode.then { |s| s.length.to_s + s }
-    end
-
-    # @return [Array of ECHConfig]
-    def self.decode_vectors(octet)
-      i = 0
-      echconfigs = []
-      while i < octet.length
-        raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
-
-        version = octet.slice(i, i + 2)
-        length = octet.slice(i + 2, i + 4).unpack1('n')
-        i += 4
-        raise ::Resolv::DNS::DecodeError if i + length > octet.length
-
-        echcontents = ECHConfigContents.decode(octet.slice(i, i + length))
-        i += length
-        echconfigs += ECHConfig.new(version, echcontents)
-      end
-      raise ::Resolv::DNS::DecodeError if i != octet.length
-
-      echconfigs
-    end
+    echconfigs
   end
 end

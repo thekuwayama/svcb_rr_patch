@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::HpkePublicKey
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkePublicKey
   attr_reader :opaque
 
   # @param opaque [String]

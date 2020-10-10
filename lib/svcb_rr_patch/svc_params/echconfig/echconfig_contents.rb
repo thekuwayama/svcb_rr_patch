@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
+  # define class
+end
+
+Dir[File.dirname(__FILE__) + '/echconfig_contents/*.rb'].sort.each { |f| require f }
+
+class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
   attr_reader :public_name
   attr_reader :public_key
   attr_reader :kem_id
@@ -64,7 +70,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
     i += pk_len
     raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
 
-    kem_id = HkpeKemId.decode(octet.slice(i, 2).unpack1('n'))
+    kem_id = HkpeKemId.decode(octet.slice(i, 2))
     i += 2
     raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
 
@@ -84,7 +90,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
     i += 2
     raise ::Resolv::DNS::DecodeError if i + ex_len > octet.length
 
-    extensions = Extensions.decode_vectors(octet.slice(i, ex_len))
+    extensions = Extension.decode_vectors(octet.slice(i, ex_len))
     i += ex_len
     raise ::Resolv::DNS::DecodeError if i != octet.length
 
