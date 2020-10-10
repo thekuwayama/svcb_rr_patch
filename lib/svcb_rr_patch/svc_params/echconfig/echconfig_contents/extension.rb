@@ -5,12 +5,12 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::Extension
 
   # @param octet [String]
   def initialize(octet)
-    @octet = octet
+    @octet = octet # TODO
   end
 
   # @return [String]
   def encode
-    @octet
+    @octet # TODO
   end
 
   # @return [Array of Extension]
@@ -24,7 +24,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::Extension
       i += 4
       raise ::Resolv::DNS::DecodeError if i + ex_len > octet.length
 
-      extensions << new(octet.slice(i, ex_len))
+      extensions << new(octet.slice(i, ex_len)) # TODO
       i += ex_len
     end
     raise ::Resolv::DNS::DecodeError if i != octet.length

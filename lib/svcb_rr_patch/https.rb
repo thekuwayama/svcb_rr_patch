@@ -4,7 +4,7 @@
 # The HTTPS DNS Resource Record
 
 class Resolv::DNS::Resource::IN::HTTPS < Resolv::DNS::Resource::IN::SVCB
-  TypeValue = 65 # rubocop: disable Naming/ConstantName
+  TypeValue = 65 # rubocop:disable Naming/ConstantName
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 

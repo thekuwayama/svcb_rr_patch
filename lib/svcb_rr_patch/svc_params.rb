@@ -11,11 +11,11 @@ module SvcbRrPatch::SvcParams
       echconfig
       ipv6hint
     ]
-    # rubocop: disable Security/Eval
+    # rubocop:disable Security/Eval
     (65280..65535).each do |nnnn|
       eval "registry[nnnn] = \"key#{nnnn}\"", binding, __FILE__, __LINE__
     end
-    # rubocop: enable Security/Eval
+    # rubocop:enable Security/Eval
     registry
   }.call.freeze
 end
@@ -39,7 +39,7 @@ module SvcbRrPatch::SvcParams
   # @param octet [String]
   #
   # @return [Hash] Integer => SvcbRrPatch::$Object
-  # rubocop: disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize
   def self.decode(octet)
     svc_params = {}
     i = 0
@@ -68,10 +68,10 @@ module SvcbRrPatch::SvcParams
 
     svc_params
   end
-  # rubocop: enable Metrics/AbcSize
+  # rubocop:enable Metrics/AbcSize
 
   # :nodoc:
-  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/CyclomaticComplexity
   def self.decode_svc_params(key, octet)
     case key
     when 'no name'
@@ -92,5 +92,5 @@ module SvcbRrPatch::SvcParams
       octet
     end
   end
-  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/CyclomaticComplexity
 end

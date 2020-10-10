@@ -62,7 +62,6 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfig
     while i < octet.length
       raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
 
-      version = octet.slice(i, i + 2)
       length = octet.slice(i + 2, i + 4).unpack1('n')
       i += 4
       raise ::Resolv::DNS::DecodeError if i + length > octet.length

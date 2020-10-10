@@ -4,7 +4,8 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/hpke_cipher_suite/*.rb'].sort.each { |f| require f }
+Dir[File.dirname(__FILE__) + '/hpke_cipher_suite/*.rb']
+  .sort.each { |f| require f }
 
 class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
   attr_reader :kdf_id

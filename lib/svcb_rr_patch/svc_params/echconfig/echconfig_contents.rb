@@ -4,7 +4,8 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/echconfig_contents/*.rb'].sort.each { |f| require f }
+Dir[File.dirname(__FILE__) + '/echconfig_contents/*.rb']
+  .sort.each { |f| require f }
 
 class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
   attr_reader :public_name
@@ -20,7 +21,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
   # @param cipher_suites [Array of HpkeCipherSuite]
   # @param maximum_name_length [Integer]
   # @param extensions [Array of Extension]
-  # rubocop: disable Metrics/ParameterLists
+  # rubocop:disable Metrics/ParameterLists
   def initialize(public_name,
                  public_key,
                  kem_id,
@@ -34,7 +35,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
     @maximum_name_length = maximum_name_length
     @extensions = extensions
   end
-  # rubocop: enable Metrics/ParameterLists
+  # rubocop:enable Metrics/ParameterLists
 
   # @return [String]
   def encode
@@ -47,10 +48,10 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
   end
 
   # :nodoc
-  # rubocop: disable Metrics/AbcSize
-  # rubocop: disable Metrics/CyclomaticComplexity
-  # rubocop: disable Metrics/MethodLength
-  # rubocop: disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.length < 2
 
@@ -103,8 +104,8 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
       extensions
     )
   end
-  # rubocop: enable Metrics/AbcSize
-  # rubocop: enable Metrics/CyclomaticComplexity
-  # rubocop: enable Metrics/MethodLength
-  # rubocop: enable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/PerceivedComplexity
 end
