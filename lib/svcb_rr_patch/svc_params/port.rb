@@ -15,7 +15,7 @@ class SvcbRrPatch::SvcParams::Port
 
   # :nodoc:
   def self.decode(octet)
-    port = octet.unpack1('n1')
+    port = octet.unpack1('n')
     new(port)
   end
 end

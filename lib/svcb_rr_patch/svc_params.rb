@@ -47,13 +47,13 @@ module SvcbRrPatch::SvcParams
     while i < octet.length
       raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
 
-      k = octet.slice(i, 2).unpack1('n1')
+      k = octet.slice(i, 2).unpack1('n')
       # SvcParamKeys SHALL appear in increasing numeric order.
       raise ::Resolv::DNS::DecodeError \
         unless svc_params.keys.find { |already| h[already] >= k }.nil?
 
       i += 2
-      vlen = octet.slice(i, 2).unpack1('n1')
+      vlen = octet.slice(i, 2).unpack1('n')
       i += 2
       raise ::Resolv::DNS::DecodeError if i + vlen > octet.length
 
