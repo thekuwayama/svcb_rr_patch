@@ -9,7 +9,7 @@ class Resolv::DNS::Resource::IN::HTTPS < Resolv::DNS::Resource::IN::SVCB
   ClassHash[[TypeValue, ClassValue]] = self
 
   def initialize(svc_priority, target_name, svc_params)
-    # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-01
+    # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-06
     super(svc_priority, target_name, svc_params)
   end
 
