@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig
+class SvcbRrPatch::SvcParams::Ech
   attr_reader :echconfigs
 
   # @param echconfigs [Array of ECHConfig]
@@ -32,9 +32,9 @@ class SvcbRrPatch::SvcParams::Echconfig
   end
 end
 
-require File.dirname(__FILE__) + '/echconfig/echconfig_contents.rb'
+require File.dirname(__FILE__) + '/ech/echconfig_contents.rb'
 
-class SvcbRrPatch::SvcParams::Echconfig::ECHConfig
+class SvcbRrPatch::SvcParams::Ech::ECHConfig
   attr_reader :version
   attr_reader :echconfigcontents
 
@@ -42,7 +42,7 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfig
   DRAFT_VERSION = "\xff\x07"
   private_constant :DRAFT_VERSION
 
-  ECHConfigContents = ::SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents
+  ECHConfigContents = ::SvcbRrPatch::SvcParams::Ech::ECHConfigContents
 
   # @param echconfig_contents [ECHConfigContents]
   def initialize(echconfig_contents)

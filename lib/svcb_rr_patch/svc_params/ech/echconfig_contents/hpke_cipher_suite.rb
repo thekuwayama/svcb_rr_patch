@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite
   # define class
 end
 
 Dir[File.dirname(__FILE__) + '/hpke_cipher_suite/*.rb']
   .sort.each { |f| require f }
 
-class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite
   attr_reader :kdf_id
   attr_reader :aead_id
 
-  # @param kdf_id [HkpeKdfId]
-  # @param aead_id [HkpeAeadId]
+  # @param kdf_id [HpkeKdfId]
+  # @param aead_id [HpkeAeadId]
   def initialize(kdf_id, aead_id)
     @kdf_id = kdf_id
     @aead_id = aead_id
@@ -30,8 +30,8 @@ class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite
     while i < octet.length
       raise ::Resolv::DNS::DecodeError if i + 4 > octet.length
 
-      kdf_id = HkpeKdfId.decode(octet.slice(i, 2))
-      aead_id = HkpeAeadId.decode(octet.slice(i + 2, 2))
+      kdf_id = HpkeKdfId.decode(octet.slice(i, 2))
+      aead_id = HpkeAeadId.decode(octet.slice(i + 2, 2))
       i += 4
       cipher_suites << new(kdf_id, aead_id)
     end
