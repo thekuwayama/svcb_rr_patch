@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::Extension
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::Extension
   attr_reader :octet
 
   # @param octet [String]

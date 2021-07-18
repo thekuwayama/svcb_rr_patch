@@ -8,7 +8,7 @@ module SvcbRrPatch::SvcParams
       no-default-alpn
       port
       ipv4hint
-      echconfig
+      ech
       ipv6hint
     ]
     # rubocop:disable Security/Eval
@@ -84,7 +84,7 @@ module SvcbRrPatch::SvcParams
       Port.decode(octet)
     when 'ipv4hint'
       Ipv4hint.decode(octet)
-    when 'echconfig'
+    when 'ech'
       octet
     when 'ipv6hint'
       Ipv6hint.decode(octet)

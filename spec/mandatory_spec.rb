@@ -14,7 +14,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Mandatory do
         .zip(SvcbRrPatch::SvcParams::PARAMETER_REGISTRY)
     ].invert
 
-    [h['echconfig'], h['key65444']]
+    [h['ech'], h['key65444']]
   end
 
   context '#decode' do

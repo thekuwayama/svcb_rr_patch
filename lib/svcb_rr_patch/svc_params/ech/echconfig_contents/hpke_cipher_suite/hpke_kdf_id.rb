@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Echconfig::ECHConfigContents::HpkeCipherSuite::HkpeAeadId # rubocop:disable Layout/LineLength
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite::HpkeKdfId # rubocop:disable Layout/LineLength
   attr_reader :uint16
 
   # @param uint16 [Integer]
