@@ -35,7 +35,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
 
   # :nodoc:
   def encode_rdata(msg)
-    msg.put_bytes([@svc_priority].pack('n1'))
+    msg.put_bytes([@svc_priority].pack('n'))
     msg.put_string(@target_name)
     msg.put_string(::SvcbRrPatch::SvcParams.encode(@svc_params))
   end
