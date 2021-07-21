@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkePublicKey
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkePublicKey # rubocop:disable Layout/LineLength
   attr_reader :opaque
 
   # @param opaque [String]

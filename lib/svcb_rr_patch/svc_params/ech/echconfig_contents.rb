@@ -8,83 +8,50 @@ Dir[File.dirname(__FILE__) + '/echconfig_contents/*.rb']
   .sort.each { |f| require f }
 
 class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
-  attr_reader :public_name
-  attr_reader :public_key
-  attr_reader :kem_id
-  attr_reader :cipher_suites
+  attr_reader :key_config
   attr_reader :maximum_name_length
+  attr_reader :public_name
   attr_reader :extensions
 
-  # @param public_name [String]
-  # @param public_key [HpkePublicKey]
-  # @param kem_id [HpkeKemId]
-  # @param cipher_suites [Array of HpkeCipherSuite]
+  # @param key_config [HpkeKeyConfig]
   # @param maximum_name_length [Integer]
+  # @param public_name [String]
   # @param extensions [Array of Extension]
-  # rubocop:disable Metrics/ParameterLists
-  def initialize(public_name,
-                 public_key,
-                 kem_id,
-                 cipher_suites,
+  def initialize(key_config,
                  maximum_name_length,
+                 public_name,
                  extensions)
-    @public_name = public_name
-    @public_key = public_key
-    @kem_id = kem_id
-    @cipher_suites = cipher_suites
+    @key_config = key_config
     @maximum_name_length = maximum_name_length
+    @public_name = public_name
     @extensions = extensions
   end
-  # rubocop:enable Metrics/ParameterLists
 
   # @return [String]
   def encode
-    @public_name.then { |s| [s.length].pack('n') + s } \
-    + @public_key.encode \
-    + @kem_id.encode \
-    + @cipher_suites.map(&:encode).join.then { |s| [s.length].pack('n') + s } \
+    @key_config.encode \
     + [@maximum_name_length].pack('n') \
+    + @public_name.then { |s| [s.length].pack('n') + s } \
     + @extensions.map(&:encode).join.then { |s| [s.length].pack('n') + s }
   end
 
   # :nodoc
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/PerceivedComplexity
   def self.decode(octet)
+    key_config, octet = HpkeKeyConfig.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.length < 2
 
-    pn_len = octet.slice(0, 2).unpack1('n')
+    maximum_name_length = octet.slice(0, 2).unpack1('n')
     i = 2
+    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
+
+    pn_len = octet.slice(i, 2).unpack1('n')
+    i += 2
     raise ::Resolv::DNS::DecodeError if i + pn_len > octet.length
 
     public_name = octet.slice(i, pn_len)
     i += pn_len
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    pk_len = octet.slice(i, 2).unpack1('n')
-    i += 2
-    raise ::Resolv::DNS::DecodeError if i + pk_len > octet.length
-
-    public_key = HpkePublicKey.decode(octet.slice(i, pk_len))
-    i += pk_len
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    kem_id = HpkeKemId.decode(octet.slice(i, 2))
-    i += 2
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    cs_len = octet.slice(i, 2).unpack1('n')
-    i += 2
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    cipher_suites = HpkeCipherSuite.decode_vectors(octet.slice(i, cs_len))
-    i += cs_len
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    maximum_name_length = octet.slice(i, 2).unpack1('n')
-    i += 2
     raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
 
     ex_len = octet.slice(i, 2).unpack1('n')
@@ -96,16 +63,12 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
     raise ::Resolv::DNS::DecodeError if i != octet.length
 
     new(
-      public_name,
-      public_key,
-      kem_id,
-      cipher_suites,
+      key_config,
       maximum_name_length,
+      public_name,
       extensions
     )
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/PerceivedComplexity
 end

@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite # rubocop:disable Layout/LineLength
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/hpke_cipher_suite/*.rb']
+Dir[File.dirname(__FILE__) + '/hpke_symmetric_cipher_suite/*.rb']
   .sort.each { |f| require f }
 
-class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite # rubocop:disable Layout/LineLength
   attr_reader :kdf_id
   attr_reader :aead_id
 
@@ -23,7 +23,7 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeCipherSuite
     @kdf_id.encode + @aead_id.encode
   end
 
-  # @return [Array of HpkeCipherSuite]
+  # @return [Array of HpkeSymmetricCipherSuite]
   def self.decode_vectors(octet)
     i = 0
     cipher_suites = []

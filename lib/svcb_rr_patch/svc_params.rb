@@ -85,7 +85,7 @@ module SvcbRrPatch::SvcParams
     when 'ipv4hint'
       Ipv4hint.decode(octet)
     when 'ech'
-      octet
+      Ech.decode(octet)
     when 'ipv6hint'
       Ipv6hint.decode(octet)
     else
