@@ -8,6 +8,10 @@
 
 - https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-06
 
+`svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is 0xfe0a.
+
+- https://datatracker.ietf.org/doc/html/draft-ietf-tls-esni-10#section-4
+
 
 ## Installation
 
