@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SvcbRrPatch::SvcParams::Ech
-  attr_reader :echconfigs
+  attr_reader :echconfiglist
 
   # @param echconfiglist [Array of ECHConfig]
   def initialize(echconfiglist)
@@ -20,6 +20,13 @@ class SvcbRrPatch::SvcParams::Ech
 
     echconfiglist = ECHConfig.decode_vectors(octet.slice(2..))
     new(echconfiglist)
+  end
+
+  # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06#section-9
+  # In presentation format, the value is a single ECHConfigList encoded in
+  # Base64.
+  def inspect
+    Base64.strict_encode64(encode)
   end
 end
 

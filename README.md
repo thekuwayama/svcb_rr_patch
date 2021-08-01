@@ -6,7 +6,7 @@
 
 `svcb_rr_patch` is the patch that adds SVCB Resource Record and HTTPS Resource Record.
 
-- https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-06
+- https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
 
 `svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is 0xfe0a.
 
@@ -33,7 +33,7 @@ irb(main):001:0> require 'svcb_rr_patch'
 irb(main):002:1* Resolv::DNS.new.getresources(
 irb(main):003:1*   "blog.cloudflare.com",
 irb(main):004:1*   Resolv::DNS::Resource::IN::HTTPS
-irb(main):005:0> ) { |rr| pp rr }
+irb(main):005:0> )
 => [#<Resolv::DNS::Resource::IN::HTTPS:0x0000000000000001 @svc_priority=1, @svc_domain_name="", @svc_field_value={"alpn"=>#<SvcbRrPatch::SvcParams::Alpn:0x0000000000000002 @protocols=["h3-29", "h3-28", "h3-27", "h2"]>, "ipv4hint"=>#<SvcbRrPatch::SvcParams::Ipv4hint:0x0000000000000003 @addresses=[#<Resolv::IPv4 104.18.26.46>, #<Resolv::IPv4 104.18.27.46>]>, "ipv6hint"=>#<SvcbRrPatch::SvcParams::Ipv6hint:0x0000000000000004 @addresses=[#<Resolv::IPv6 2606:4700::6812:1a2e>, #<Resolv::IPv6 2606:4700::6812:1b2e>]>}, @ttl=300>]
 ```
 
