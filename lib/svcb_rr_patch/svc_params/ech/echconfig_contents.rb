@@ -37,7 +37,6 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
 
   # :nodoc
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/CyclomaticComplexity
   def self.decode(octet)
     key_config, octet = HpkeKeyConfig.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.length < 2
@@ -67,5 +66,4 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
     )
   end
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/CyclomaticComplexity
 end
