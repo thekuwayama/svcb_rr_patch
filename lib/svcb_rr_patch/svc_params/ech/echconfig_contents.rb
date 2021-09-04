@@ -30,8 +30,8 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
   # @return [String]
   def encode
     @key_config.encode \
-    + [@maximum_name_length].pack('n') \
-    + @public_name.then { |s| [s.length].pack('n') + s } \
+    + [@maximum_name_length].pack('C') \
+    + @public_name.then { |s| [s.length].pack('C') + s } \
     + @extensions.map(&:encode).join.then { |s| [s.length].pack('n') + s }
   end
 
@@ -42,12 +42,9 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
     key_config, octet = HpkeKeyConfig.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.length < 2
 
-    maximum_name_length = octet.slice(0, 2).unpack1('n')
+    maximum_name_length = octet.slice(0, 1).unpack1('C')
+    pn_len = octet.slice(1, 1).unpack1('C')
     i = 2
-    raise ::Resolv::DNS::DecodeError if i + 2 > octet.length
-
-    pn_len = octet.slice(i, 2).unpack1('n')
-    i += 2
     raise ::Resolv::DNS::DecodeError if i + pn_len > octet.length
 
     public_name = octet.slice(i, pn_len)
