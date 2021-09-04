@@ -12,7 +12,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   # @param target_name [String]
   # @param svc_params [Map]
   def initialize(svc_priority, target_name, svc_params)
-    # https://tools.ietf.org/html/draft-ietf-dnsop-svcb-https-06
+    # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
     @svc_priority = svc_priority
     @target_name = target_name
     @svc_params = svc_params
