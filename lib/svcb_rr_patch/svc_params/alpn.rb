@@ -35,4 +35,9 @@ class SvcbRrPatch::SvcParams::Alpn
     protocols = decode_protocols(octet)
     new(protocols)
   end
+
+  # :nodoc:
+  def inspect
+    @protocols.join(',')
+  end
 end

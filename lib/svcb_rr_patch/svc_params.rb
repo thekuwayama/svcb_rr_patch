@@ -12,7 +12,7 @@ module SvcbRrPatch::SvcParams
       ipv6hint
     ]
     # rubocop:disable Security/Eval
-    (65280..65535).each do |nnnn|
+    (65280...65535).each do |nnnn|
       eval "registry[nnnn] = \"key#{nnnn}\"", binding, __FILE__, __LINE__
     end
     # rubocop:enable Security/Eval
@@ -74,8 +74,8 @@ module SvcbRrPatch::SvcParams
   # rubocop:disable Metrics/CyclomaticComplexity
   def self.decode_svc_params(key, octet)
     case key
-    when 'no name'
-      NoName.decode(octet)
+    when 'mandatory'
+      Mandatory.decode(octet)
     when 'alpn'
       Alpn.decode(octet)
     when 'no-default-alpn'

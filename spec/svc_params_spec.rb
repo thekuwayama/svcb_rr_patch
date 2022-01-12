@@ -8,8 +8,8 @@ RSpec.describe SvcbRrPatch::SvcParams do
     <<-BIN.split.map(&:hex).map(&:chr).join
       00 01 00 15 05 68 33 2d     32 39 05 68 33 2d 32 38
       05 68 33 2d 32 37 02 68     32 00 04 00 08 c0 a8 00
-      01 c0 a8 00 02 00 06 00     10 01 01 01 01 01 01 01
-      01 01 01 01 01 01 01 01     01 ff 35 00 03 01 02 03
+      01 c0 a8 00 02 00 06 00     10 20 01 0d b8 00 00 00
+      00 00 00 00 00 00 00 00     01 ff 35 00 03 01 02 03
     BIN
   end
 
@@ -28,7 +28,7 @@ RSpec.describe SvcbRrPatch::SvcParams do
 
   let(:ipv6hint) do
     SvcbRrPatch::SvcParams::Ipv6hint.new(
-      [Resolv::IPv6.create('101:101:101:101:101:101:101:101')]
+      [Resolv::IPv6.create('2001:db8::1')]
     )
   end
 
