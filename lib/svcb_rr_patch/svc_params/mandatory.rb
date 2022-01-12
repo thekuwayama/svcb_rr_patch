@@ -24,10 +24,8 @@ class SvcbRrPatch::SvcParams::Mandatory
   # :nodoc:
   def inspect
     @keys.map do |i|
-      if i < 7
+      if i < 7 || i >= 65280 && i < 65535
         SvcbRrPatch::SvcParams::PARAMETER_REGISTRY[i]
-      elsif i >= 65280 && i < 65535
-        "key#{i}"
       else
         ''
       end
