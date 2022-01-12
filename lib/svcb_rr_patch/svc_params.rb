@@ -12,7 +12,7 @@ module SvcbRrPatch::SvcParams
       ipv6hint
     ]
     # rubocop:disable Security/Eval
-    (65280..65535).each do |nnnn|
+    (65280...65535).each do |nnnn|
       eval "registry[nnnn] = \"key#{nnnn}\"", binding, __FILE__, __LINE__
     end
     # rubocop:enable Security/Eval

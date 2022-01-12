@@ -15,33 +15,22 @@ class SvcbRrPatch::SvcParams::Mandatory
 
   # :nodoc:
   def self.decode(octet)
-    keys = octet.scan(/.{1,2}/).map { |s| s.unpack1('n') }
+    keys = octet.scan(/.{1,2}/)
+                .map { |s| s.unpack1('n') }
+                .filter { |i| i < 7 || i >= 65280 && i < 65535 }
     new(keys)
   end
 
   # :nodoc:
-  # rubocop: disable Metrics/CyclomaticComplexity
   def inspect
     @keys.map do |i|
-      case i
-      when 0
-        'mandatory'
-      when 1
-        'alpn'
-      when 2
-        'no-default-alpn'
-      when 3
-        'port'
-      when 4
-        'ipv4hint'
-      when 5
-        'ech'
-      when 6
-        'ipv6hint'
-      else
+      if i < 7
+        SvcbRrPatch::SvcParams::PARAMETER_REGISTRY[i]
+      elsif i >= 65280 && i < 65535
         "key#{i}"
+      else
+        ''
       end
     end.join(',')
   end
-  # rubocop: enable Metrics/CyclomaticComplexity
 end
