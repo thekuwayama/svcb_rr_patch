@@ -18,4 +18,9 @@ class SvcbRrPatch::SvcParams::Ipv6hint
     addresses = octet.scan(/.{1,16}/).map { |s| Resolv::IPv6.new(s) }
     new(addresses)
   end
+
+  # :nodoc:
+  def inspect
+    @addresses.join(',')
+  end
 end

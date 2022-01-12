@@ -30,6 +30,7 @@ RSpec.describe SvcbRrPatch::SvcParams::NoDefaultAlpn do
       expect(no_default_alpn)
         .to be_a(SvcbRrPatch::SvcParams::NoDefaultAlpn)
       expect(no_default_alpn.encode).to eq octet
+      expect(no_default_alpn.inspect).to eq 'h3-29,h3-28,h3-27,h2'
     end
   end
 end

@@ -18,4 +18,9 @@ class SvcbRrPatch::SvcParams::Port
     port = octet.unpack1('n')
     new(port)
   end
+
+  # :nodoc:
+  def inspect
+    @port.to_s
+  end
 end

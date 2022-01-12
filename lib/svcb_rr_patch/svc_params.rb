@@ -74,8 +74,8 @@ module SvcbRrPatch::SvcParams
   # rubocop:disable Metrics/CyclomaticComplexity
   def self.decode_svc_params(key, octet)
     case key
-    when 'no name'
-      NoName.decode(octet)
+    when 'mandatory'
+      Mandatory.decode(octet)
     when 'alpn'
       Alpn.decode(octet)
     when 'no-default-alpn'

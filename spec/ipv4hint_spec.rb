@@ -5,7 +5,7 @@ require_relative 'spec_helper'
 
 RSpec.describe SvcbRrPatch::SvcParams::Ipv4hint do
   let(:octet) do
-    "\xc0\xa8\x00\x01\xc0\xa8\x00\x02"
+    "\xc0\x00\x02\x01\xc0\x00\x02\x02"
   end
 
   context '#decode' do
@@ -15,8 +15,8 @@ RSpec.describe SvcbRrPatch::SvcParams::Ipv4hint do
 
     it 'could decode' do
       expect(ipv4hint.addresses).to eq [
-        Resolv::IPv4.create('192.168.0.1'),
-        Resolv::IPv4.create('192.168.0.2')
+        Resolv::IPv4.create('192.0.2.1'),
+        Resolv::IPv4.create('192.0.2.2')
       ]
     end
   end
@@ -25,14 +25,15 @@ RSpec.describe SvcbRrPatch::SvcParams::Ipv4hint do
     let(:ipv4hint) do
       SvcbRrPatch::SvcParams::Ipv4hint.new(
         [
-          Resolv::IPv4.create('192.168.0.1'),
-          Resolv::IPv4.create('192.168.0.2')
+          Resolv::IPv4.create('192.0.2.1'),
+          Resolv::IPv4.create('192.0.2.2')
         ]
       )
     end
 
     it 'could encode' do
       expect(ipv4hint.encode).to eq octet
+      expect(ipv4hint.inspect).to eq '192.0.2.1,192.0.2.2'
     end
   end
 end
