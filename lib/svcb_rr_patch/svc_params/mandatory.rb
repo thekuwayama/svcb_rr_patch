@@ -21,7 +21,7 @@ class SvcbRrPatch::SvcParams::Mandatory
   end
 
   # :nodoc:
-  def inspect
+  def to_s
     @keys.map { |i| SvcbRrPatch::SvcParams::PARAMETER_REGISTRY[i] }
          .join(',')
   end

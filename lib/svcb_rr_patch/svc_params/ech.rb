@@ -25,7 +25,7 @@ class SvcbRrPatch::SvcParams::Ech
   # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06#section-9
   # In presentation format, the value is a single ECHConfigList encoded in
   # Base64.
-  def inspect
+  def to_s
     Base64.strict_encode64(encode)
   end
 end

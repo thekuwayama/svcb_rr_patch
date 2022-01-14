@@ -20,7 +20,7 @@ class SvcbRrPatch::SvcParams::Ipv4hint
   end
 
   # :nodoc:
-  def inspect
+  def to_s
     @addresses.join(',')
   end
 end

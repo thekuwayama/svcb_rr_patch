@@ -36,7 +36,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Ipv6hint do
 
     it 'could encode' do
       expect(ipv6hint.encode).to eq octet
-      expect(ipv6hint.inspect).to eq '2001:db8::1,2001:db8::2'
+      expect(ipv6hint.to_s).to eq '2001:db8::1,2001:db8::2'
     end
   end
 end

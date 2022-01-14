@@ -113,8 +113,8 @@ module SvcbRrPatch::SvcParams
     end
 
     # :nodoc:
-    def inspect
-      @hash.map { |k, v| "#{k}=#{v.inspect}" }.join(' ')
+    def to_s
+      @hash.map { |k, v| "#{k}=#{v}" }.join(' ')
     end
   end
 end

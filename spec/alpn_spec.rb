@@ -25,7 +25,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Alpn do
 
     it 'could encode' do
       expect(alpn.encode).to eq octet
-      expect(alpn.inspect).to eq 'h3-29,h3-28,h3-27,h2'
+      expect(alpn.to_s).to eq 'h3-29,h3-28,h3-27,h2'
     end
   end
 end

@@ -20,7 +20,7 @@ class SvcbRrPatch::SvcParams::Port
   end
 
   # :nodoc:
-  def inspect
+  def to_s
     @port.to_s
   end
 end

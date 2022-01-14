@@ -33,7 +33,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Ipv4hint do
 
     it 'could encode' do
       expect(ipv4hint.encode).to eq octet
-      expect(ipv4hint.inspect).to eq '192.0.2.1,192.0.2.2'
+      expect(ipv4hint.to_s).to eq '192.0.2.1,192.0.2.2'
     end
   end
 end

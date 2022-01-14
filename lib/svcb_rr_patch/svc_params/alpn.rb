@@ -37,7 +37,7 @@ class SvcbRrPatch::SvcParams::Alpn
   end
 
   # :nodoc:
-  def inspect
+  def to_s
     @protocols.join(',')
   end
 end

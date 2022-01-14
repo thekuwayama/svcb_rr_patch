@@ -34,7 +34,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Mandatory do
 
     it 'could encode' do
       expect(mandatory.encode).to eq octet
-      expect(mandatory.inspect).to eq 'ech,ipv6hint,undefine8,key65444'
+      expect(mandatory.to_s).to eq 'ech,ipv6hint,undefine8,key65444'
     end
   end
 end

@@ -25,7 +25,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Port do
 
     it 'could encode' do
       expect(port.encode).to eq octet
-      expect(port.inspect).to eq '443'
+      expect(port.to_s).to eq '443'
     end
   end
 end
