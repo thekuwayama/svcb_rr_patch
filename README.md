@@ -36,10 +36,36 @@ irb(main):004:1*   Resolv::DNS::Resource::IN::HTTPS
 irb(main):005:0> )
 =>
 [#<Resolv::DNS::Resource::IN::HTTPS:0x0000000000000001
-  @svc_params=alpn=h3,h3-29,h3-28,h3-27,h2 ipv4hint=104.18.26.46,104.18.27.46 ipv6hint=2606:4700::6812:1a2e,2606:4700::6812:1b2e,
+  @svc_params=
+   #<SvcbRrPatch::SvcParams::Hash:0x0000000000000002
+    @hash=
+     {"alpn"=>#<SvcbRrPatch::SvcParams::Alpn:0x0000000000000003 @protocols=["http/1.1", "h2"]>,
+      "ipv4hint"=>#<SvcbRrPatch::SvcParams::Ipv4hint:0x0000000000000004 @addresses=[#<Resolv::IPv4 162.159.137.85>, #<Resolv::IPv4 162.159.138.85>]>,
+      "ech"=>
+       #<SvcbRrPatch::SvcParams::Ech:0x0000000000000005
+        @echconfiglist=
+         [#<SvcbRrPatch::SvcParams::Ech::ECHConfig:0x0000000000000006
+           @echconfig_contents=
+            #<SvcbRrPatch::SvcParams::Ech::ECHConfigContents:0x0000000000000007
+             @extensions=[],
+             @key_config=
+              #<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig:0x0000000000000008
+               @cipher_suites=
+                [#<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite:0x0000000000000009
+                  @aead_id=#<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite::HpkeAeadId:0x0000000000000010 @uint16=1>,
+                  @kdf_id=#<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite::HpkeKdfId:0x0000000000000011 @uint16=1>>],
+               @config_id=238,
+               @kem_id=#<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeKemId:0x0000000000000012 @uint16=32>,
+               @public_key=
+                #<SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkePublicKey:0x0000000000000013
+                 @opaque="I\x19\xD0\xCFP\b>e\xDF\xE1Q\xE8+i\x89\x8AJ\xA2b'\xD0j\xB9+\xDE\xE2\xDE\xF8\xFA\xAD\xBBm">>,
+             @maximum_name_length=0,
+             @public_name="cloudflare-esni.com">,
+           @version="\xFE\r">]>,
+      "ipv6hint"=>#<SvcbRrPatch::SvcParams::Ipv6hint:0x0000000000000014 @addresses=[#<Resolv::IPv6 2606:4700:7::a29f:8955>, #<Resolv::IPv6 2606:4700:7::a29f:8a55>]>}>,
   @svc_priority=1,
   @target_name="",
-  @ttl=300>]
+  @ttl=58>]
 ```
 
 
