@@ -5,16 +5,16 @@ require_relative 'spec_helper'
 
 RSpec.describe SvcbRrPatch::SvcParams::Mandatory do
   let(:octet) do
-    "\x00\x05\x00\x06\xff\xa4"
+    "\x00\x05\x00\x06\x00\x08\xff\xa4"
   end
 
   let(:keys) do
-    h = Hash[
-      (0..SvcbRrPatch::SvcParams::PARAMETER_REGISTRY.size - 1)
-        .zip(SvcbRrPatch::SvcParams::PARAMETER_REGISTRY)
-    ].invert
-
-    [h['ech'], h['ipv6hint'], h['key65444']]
+    [
+      SvcbRrPatch::SvcParams::PARAMETER_REGISTRY_INVERT['ech'],
+      SvcbRrPatch::SvcParams::PARAMETER_REGISTRY_INVERT['ipv6hint'],
+      SvcbRrPatch::SvcParams::PARAMETER_REGISTRY_INVERT['undefine8'],
+      SvcbRrPatch::SvcParams::PARAMETER_REGISTRY_INVERT['key65444']
+    ]
   end
 
   context '#decode' do
@@ -34,7 +34,7 @@ RSpec.describe SvcbRrPatch::SvcParams::Mandatory do
 
     it 'could encode' do
       expect(mandatory.encode).to eq octet
-      expect(mandatory.inspect).to eq 'ech,ipv6hint,key65444'
+      expect(mandatory.inspect).to eq 'ech,ipv6hint,undefine8,key65444'
     end
   end
 end

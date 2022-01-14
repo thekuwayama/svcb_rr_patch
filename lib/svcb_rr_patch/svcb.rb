@@ -10,7 +10,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
 
   # @param svc_priority [Integer]
   # @param target_name [String]
-  # @param svc_params [Map]
+  # @param svc_params [Hash]
   def initialize(svc_priority, target_name, svc_params)
     # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
     @svc_priority = svc_priority
@@ -37,7 +37,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   def encode_rdata(msg)
     msg.put_bytes([@svc_priority].pack('n'))
     msg.put_string(@target_name)
-    msg.put_string(::SvcbRrPatch::SvcParams.encode(@svc_params))
+    msg.put_string(@svc_params.encode)
   end
 
   class << self
@@ -48,7 +48,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
       return new(svc_priority, target_name, {}) if svc_priority.zero?
 
       # the SvcParams, consuming the remainder of the record
-      svc_params = ::SvcbRrPatch::SvcParams.decode(msg.get_bytes)
+      svc_params = ::SvcbRrPatch::SvcParams::Hash.decode(msg.get_bytes)
       new(svc_priority, target_name, svc_params)
     end
   end

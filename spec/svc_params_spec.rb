@@ -45,7 +45,7 @@ RSpec.describe SvcbRrPatch::SvcParams do
 
   context '#decode' do
     let(:svc_params) do
-      SvcbRrPatch::SvcParams.decode(octet)
+      SvcbRrPatch::SvcParams::Hash.decode(octet)
     end
 
     it 'could decode' do
@@ -60,16 +60,18 @@ RSpec.describe SvcbRrPatch::SvcParams do
 
   context '#encode' do
     let(:svc_params) do
-      {
+      h = {
         'alpn' => alpn,
         'ipv4hint' => ipv4hint,
         'ipv6hint' => ipv6hint,
         'key65333' => key65333
       }
+      SvcbRrPatch::SvcParams::Hash.new(h)
     end
 
     it 'could encode' do
-      expect(SvcbRrPatch::SvcParams.encode(svc_params)).to eq octet
+      expect(svc_params.encode).to eq octet
+      puts svc_params.inspect
     end
   end
 end

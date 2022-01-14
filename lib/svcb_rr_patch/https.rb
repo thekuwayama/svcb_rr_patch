@@ -21,7 +21,7 @@ class Resolv::DNS::Resource::IN::HTTPS < Resolv::DNS::Resource::IN::SVCB
       return new(svc_priority, target_name, {}) if svc_priority.zero?
 
       # the SvcParams, consuming the remainder of the record
-      svc_params = ::SvcbRrPatch::SvcParams.decode(msg.get_bytes)
+      svc_params = ::SvcbRrPatch::SvcParams::Hash.decode(msg.get_bytes)
       new(svc_priority, target_name, svc_params)
     end
   end

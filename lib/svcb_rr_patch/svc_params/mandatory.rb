@@ -17,18 +17,12 @@ class SvcbRrPatch::SvcParams::Mandatory
   def self.decode(octet)
     keys = octet.scan(/.{1,2}/)
                 .map { |s| s.unpack1('n') }
-                .filter { |i| i < 7 || i >= 65280 && i < 65535 }
     new(keys)
   end
 
   # :nodoc:
   def inspect
-    @keys.map do |i|
-      if i < 7 || i >= 65280 && i < 65535
-        SvcbRrPatch::SvcParams::PARAMETER_REGISTRY[i]
-      else
-        ''
-      end
-    end.join(',')
+    @keys.map { |i| SvcbRrPatch::SvcParams::PARAMETER_REGISTRY[i] }
+         .join(',')
   end
 end
