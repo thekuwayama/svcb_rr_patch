@@ -36,7 +36,7 @@ irb(main):004:1*   Resolv::DNS::Resource::IN::HTTPS
 irb(main):005:0> )
 =>
 [#<Resolv::DNS::Resource::IN::HTTPS:0x0000000000000001
-  @svc_params={"alpn"=>h3,h3-29,h3-28,h3-27,h2, "ipv4hint"=>104.18.26.46,104.18.27.46, "ipv6hint"=>2606:4700::6812:1a2e,2606:4700::6812:1b2e},
+  @svc_params=alpn=h3,h3-29,h3-28,h3-27,h2 ipv4hint=104.18.26.46,104.18.27.46 ipv6hint=2606:4700::6812:1a2e,2606:4700::6812:1b2e,
   @svc_priority=1,
   @target_name="",
   @ttl=300>]
