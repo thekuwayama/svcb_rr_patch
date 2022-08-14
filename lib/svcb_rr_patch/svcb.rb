@@ -13,7 +13,7 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   # @param svc_params [Hash]
   # rubocop: disable Lint/MissingSuper
   def initialize(svc_priority, target_name, svc_params)
-    # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
+    # https://www.ietf.org/archive/id/draft-ietf-dnsop-svcb-https-06.html
     @svc_priority = svc_priority
     @target_name = target_name
     @svc_params = svc_params
