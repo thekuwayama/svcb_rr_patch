@@ -4,14 +4,11 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/hpke_key_config/*.rb']
+Dir["#{File.dirname(__FILE__)}/hpke_key_config/*.rb"]
   .sort.each { |f| require f }
 
 class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig
-  attr_reader :config_id
-  attr_reader :kem_id
-  attr_reader :public_key
-  attr_reader :cipher_suites
+  attr_reader :config_id, :kem_id, :public_key, :cipher_suites
 
   # @param config_id [Integer]
   # @param kem_id [HpkeKemId]
@@ -37,7 +34,6 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig
 
   # :nodoc
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/CyclomaticComplexity
   def self.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.empty?
 
@@ -73,5 +69,4 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig
     [hpke_key_config, octet[i..]]
   end
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/CyclomaticComplexity
 end

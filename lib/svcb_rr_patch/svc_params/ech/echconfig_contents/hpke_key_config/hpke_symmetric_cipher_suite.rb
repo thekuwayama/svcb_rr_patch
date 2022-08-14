@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite # rubocop:disable Layout/LineLength
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/hpke_symmetric_cipher_suite/*.rb']
+Dir["#{File.dirname(__FILE__)}/hpke_symmetric_cipher_suite/*.rb"]
   .sort.each { |f| require f }
 
-class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite # rubocop:disable Layout/LineLength
-  attr_reader :kdf_id
-  attr_reader :aead_id
+class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::HpkeKeyConfig::HpkeSymmetricCipherSuite
+  attr_reader :kdf_id, :aead_id
 
   # @param kdf_id [HpkeKdfId]
   # @param aead_id [HpkeAeadId]

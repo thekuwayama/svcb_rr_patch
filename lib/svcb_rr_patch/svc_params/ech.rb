@@ -33,8 +33,7 @@ end
 require_relative 'ech/echconfig_contents'
 
 class SvcbRrPatch::SvcParams::Ech::ECHConfig
-  attr_reader :version
-  attr_reader :echconfigcontents
+  attr_reader :version, :echconfigcontents
 
   ECHConfigContents = ::SvcbRrPatch::SvcParams::Ech::ECHConfigContents
 

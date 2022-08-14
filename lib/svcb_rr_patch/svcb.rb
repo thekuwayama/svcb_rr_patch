@@ -11,27 +11,25 @@ class Resolv::DNS::Resource::IN::SVCB < Resolv::DNS::Resource
   # @param svc_priority [Integer]
   # @param target_name [String]
   # @param svc_params [Hash]
+  # rubocop: disable Lint/MissingSuper
   def initialize(svc_priority, target_name, svc_params)
     # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
     @svc_priority = svc_priority
     @target_name = target_name
     @svc_params = svc_params
   end
+  # rubocop: enable Lint/MissingSuper
 
   ##
   # SvcPriority
 
-  attr_reader :svc_priority
+  attr_reader :svc_priority, :target_name, :svc_params
 
   ##
   # TargetName
 
-  attr_reader :target_name
-
   ##
   # SvcParams
-
-  attr_reader :svc_params
 
   # :nodoc:
   def encode_rdata(msg)
