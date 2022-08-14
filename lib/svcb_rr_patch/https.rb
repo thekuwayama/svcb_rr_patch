@@ -8,11 +8,6 @@ class Resolv::DNS::Resource::IN::HTTPS < Resolv::DNS::Resource::IN::SVCB
   ClassValue = IN::ClassValue
   ClassHash[[TypeValue, ClassValue]] = self
 
-  def initialize(svc_priority, target_name, svc_params)
-    # https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-06
-    super(svc_priority, target_name, svc_params)
-  end
-
   class << self
     # :nodoc:
     def decode_rdata(msg)

@@ -6,8 +6,8 @@ gem 'rake'
 
 group :test do
   gem 'byebug'
-  gem 'rspec', '3.9.0'
-  gem 'rubocop', '0.78.0'
+  gem 'rspec', '3.11'
+  gem 'rubocop', '1.35'
 end
 
 gemspec

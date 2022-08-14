@@ -4,14 +4,11 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
   # define class
 end
 
-Dir[File.dirname(__FILE__) + '/echconfig_contents/*.rb']
+Dir["#{File.dirname(__FILE__)}/echconfig_contents/*.rb"]
   .sort.each { |f| require f }
 
 class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
-  attr_reader :key_config
-  attr_reader :maximum_name_length
-  attr_reader :public_name
-  attr_reader :extensions
+  attr_reader :key_config, :maximum_name_length, :public_name, :extensions
 
   # @param key_config [HpkeKeyConfig]
   # @param maximum_name_length [Integer]
@@ -36,7 +33,6 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
   end
 
   # :nodoc
-  # rubocop:disable Metrics/AbcSize
   def self.decode(octet)
     key_config, octet = HpkeKeyConfig.decode(octet)
     raise ::Resolv::DNS::DecodeError if octet.length < 2
@@ -65,5 +61,4 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
       extensions
     )
   end
-  # rubocop:enable Metrics/AbcSize
 end
