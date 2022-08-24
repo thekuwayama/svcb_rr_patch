@@ -2,6 +2,7 @@
 
 require 'base64'
 require 'resolv'
+require 'tttls1.3'
 
 require 'svcb_rr_patch/version'
 require 'svcb_rr_patch/svc_params'

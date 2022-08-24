@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
+gem 'tttls1.3'
 
 group :test do
   gem 'byebug'

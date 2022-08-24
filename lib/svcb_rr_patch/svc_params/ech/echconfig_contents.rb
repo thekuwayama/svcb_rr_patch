@@ -13,7 +13,7 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
   # @param key_config [HpkeKeyConfig]
   # @param maximum_name_length [Integer]
   # @param public_name [String]
-  # @param extensions [Array of Extension]
+  # @param extensions [TTTLS13::Message::Extensions]
   def initialize(key_config,
                  maximum_name_length,
                  public_name,
@@ -29,7 +29,7 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents
     @key_config.encode \
     + [@maximum_name_length].pack('C') \
     + @public_name.then { |s| [s.length].pack('C') + s } \
-    + @extensions.map(&:encode).join.then { |s| [s.length].pack('n') + s }
+    + @extensions.encode
   end
 
   # :nodoc
