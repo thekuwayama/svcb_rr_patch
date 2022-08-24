@@ -5,6 +5,8 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::Extension
 
   # @param extensions [TTTLS13::Message::Extensions]
   def initialize(extensions)
+    raise ArgumentError if extensions.instance_of?(TTTLS13::Message::Extensions)
+
     @extensions = extensions
   end
 
@@ -13,9 +15,11 @@ class SvcbRrPatch::SvcParams::Ech::ECHConfigContents::Extension
     @extensions.serialize
   end
 
-  # @return [Array of Extension]
+  # @raise Resolv::DNS::DecodeError
+  #
+  # @return [TTTLS13::Message::Extensions]
   def self.decode_vectors(octet)
-    new(TTTLS13::Message::Extensions.deserialize(octet))
+    new(TTTLS13::Message::Extensions.deserialize(octet, nil))
   rescue TTTLS13::Error::ErrorAlerts
     raise ::Resolv::DNS::DecodeError
   end
