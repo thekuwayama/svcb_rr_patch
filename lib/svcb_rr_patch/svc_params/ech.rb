@@ -18,7 +18,12 @@ class SvcbRrPatch::SvcParams::Ech
     raise ::Resolv::DNS::DecodeError \
       unless octet.length == octet.slice(0, 2).unpack1('n') + 2
 
-    echconfiglist = ::ECHConfig.decode_vectors(octet.slice(2..))
+    begin
+      echconfiglist = ::ECHConfig.decode_vectors(octet.slice(2..))
+    rescue ::ECHConfig::DecodeError
+      raise ::Resolv::DNS::DecodeError
+    end
+
     new(echconfiglist)
   end
 
