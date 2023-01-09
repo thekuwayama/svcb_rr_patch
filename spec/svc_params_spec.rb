@@ -71,7 +71,6 @@ RSpec.describe SvcbRrPatch::SvcParams do
 
     it 'could encode' do
       expect(svc_params.encode).to eq octet
-      puts svc_params.inspect
     end
   end
 end
