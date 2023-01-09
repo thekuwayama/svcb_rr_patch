@@ -15,7 +15,7 @@
 
 ## Installation
 
-he gem is available at [rubygems.org](https://rubygems.org/gems/svcb_rr_patch). You can install it the following.
+The gem is available at [rubygems.org](https://rubygems.org/gems/svcb_rr_patch). You can install it the following.
 
 ```sh-session
 $ gem install svcb_rr_patch
