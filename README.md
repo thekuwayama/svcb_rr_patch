@@ -8,9 +8,9 @@
 
 - https://www.ietf.org/archive/id/draft-ietf-dnsop-svcb-https-06.html
 
-`svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is `0xfe0d`.
+`svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is `0xfe0b` ~ `0xfe0f`.
 
-- https://www.ietf.org/archive/id/draft-ietf-tls-esni-13.html#section-4
+- https://author-tools.ietf.org/iddiff?url2=draft-ietf-tls-esni-11.txt#context-3
 
 
 ## Installation

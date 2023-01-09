@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'base64'
+require 'ech_config'
 require 'resolv'
 
 require 'svcb_rr_patch/version'
