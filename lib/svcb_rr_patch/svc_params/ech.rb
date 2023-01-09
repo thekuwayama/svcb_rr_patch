@@ -20,7 +20,7 @@ class SvcbRrPatch::SvcParams::Ech
 
     begin
       echconfiglist = ::ECHConfig.decode_vectors(octet.slice(2..))
-    rescue ::ECHConfig::DecodeError
+    rescue ::ECHConfig::Error
       raise ::Resolv::DNS::DecodeError
     end
 
