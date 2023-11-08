@@ -6,11 +6,11 @@
 
 `svcb_rr_patch` is the patch that adds SVCB Resource Record and HTTPS Resource Record.
 
-- https://www.ietf.org/archive/id/draft-ietf-dnsop-svcb-https-06.html
+- https://www.rfc-editor.org/rfc/rfc9460.html
 
-`svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is `0xfe0b` ~ `0xfe0f`.
+`svcb_rr_patch` supports "ech" SvcParamKey that ECHConfig.version is `0xfe0b` ~ `0xfe0d`
 
-- https://author-tools.ietf.org/iddiff?url2=draft-ietf-tls-esni-11.txt#context-3
+- https://author-tools.ietf.org/iddiff?url2=draft-ietf-tls-esni-13.txt#context-3
 
 
 ## Installation
