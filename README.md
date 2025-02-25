@@ -13,6 +13,11 @@
 - https://author-tools.ietf.org/iddiff?url2=draft-ietf-tls-esni-13.txt#context-3
 
 
+## :warning: Disclaimer :warning:
+
+`resolv` version 0.3.0 supports SVCB and HTTPS records. Use `resolv` instead of `svcb_rr_patch`.
+
+
 ## Installation
 
 The gem is available at [rubygems.org](https://rubygems.org/gems/svcb_rr_patch). You can install it the following.
